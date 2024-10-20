@@ -16,23 +16,28 @@ const users = [
 
 function App() {
 
-  const [searchItem,setSearchItem] = useState('')
-  const handleInputChange = (e) =>{
-    const searchTerm = e.target.value ;
+  const [searchItem, setSearchItem] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState(users)
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
     setSearchItem(searchTerm)
+    const filteredItems = users.filter((user)=>
+    user.firstName.toLocaleLowerCase().includes(searchItem.toLocaleLowerCase())
+    )
+    setFilteredUsers(filteredItems)
   }
   return (
     <>
-    <input type="text" 
-    value={searchItem}
-    onChange={handleInputChange}
-    placeholder='Type to search'
-    />
-    <ul>
-      {
-        users.map(user=><li key={user.id}>{user.firstName}</li>)
-      }
-    </ul>
+      <input type="text"
+        value={searchItem}
+        onChange={handleInputChange}
+        placeholder='Type to search'
+      />
+      <ul>
+        {
+          filteredUsers.map(user => <li key={user.id}>{user.firstName}</li>)
+        }
+      </ul>
     </>
   )
 }
